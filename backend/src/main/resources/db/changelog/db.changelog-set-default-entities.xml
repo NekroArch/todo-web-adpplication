@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <changeSet id="5" author="kirill">
+        <insert tableName="status">
+            <column name="title" value="To do"/>
+            <column name="icon" value="○"/>
+        </insert>
+        <insert tableName="status">
+            <column name="title" value="Completed"/>
+            <column name="icon" value="✓"/>
+        </insert>
+        <insert tableName="status">
+            <column name="title" value="Deleted"/>
+            <column name="icon" value="✖"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="6" author="kirill">
+
+        <insert tableName="issue">
+            <column name="content" value="Build a moder To Do app"/>
+            <column name="status_id" value="1"/>
+        </insert>
+        <insert tableName="issue">
+            <column name="content" value="Workout for 30 minutes at the gym"/>
+            <column name="status_id" value="1"/>
+        </insert>
+        <insert tableName="issue">
+            <column name="content" value="Clean the house and backyard"/>
+            <column name="status_id" value="1"/>
+        </insert>
+
+        <insert tableName="issue">
+            <column name="content" value="Buy groceries"/>
+            <column name="status_id" value="2"/>
+        </insert>
+        <insert tableName="issue">
+            <column name="content" value="Take the car to the autoshop for an oil change"/>
+            <column name="status_id" value="2"/>
+        </insert>
+        <insert tableName="issue">
+            <column name="content" value="Go to the cinema with Eugen"/>
+            <column name="status_id" value="2"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

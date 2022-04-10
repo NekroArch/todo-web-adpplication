@@ -1,0 +1,92 @@
+body {
+    background: #4444;
+    display: flex;
+    justify-content: center;
+}
+main {
+    margin-top: 10px;
+}
+
+.content {
+    width: 300px;
+    background: white;
+    padding:20px;
+    border-radius: 15px;
+}
+.calendar-greeting {
+margin-bottom: 10px;
+}
+.choose-status {
+
+}
+.choose-status__title {
+    border-radius: 5px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+
+    padding: 10px;
+}
+.choose-status__title-message {
+
+}
+.choose-status__title-button {
+
+}
+.choose-status__statuses {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.choose-status__status {
+    padding: 10px;
+    background: blanchedalmond;
+    border-radius: 15px;
+    margin: 10px 10px 10px 0;
+}
+
+
+.issues__title {
+    text-decoration: underline black;
+}
+.issues__list {
+    list-style-type: none;
+}
+.issue {
+    padding: 2px 0 2px 5px;
+    margin: 5px 0 5px 0;
+    list-style-position: outside;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.issue:hover {
+    background: paleturquoise;
+}
+.issue__status {
+    font-size: 24px;
+}
+.issue__status:hover {
+    color: brown;
+    cursor: pointer;
+}
+.issue__text {
+    align-self: center;
+
+}
+.issue__delete {
+    color: transparent;
+    font-size: 24px;
+    cursor: pointer;
+}
+.issue:hover .issue__delete{
+    color: red;
+}
+
+.issues__create-new {
+    color: red;
+    padding-left: 5px;
+}
+.issues__create-new:hover {
+    cursor: pointer;
+}
