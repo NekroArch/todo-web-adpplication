@@ -92,7 +92,7 @@
                 <div class="choose-status__status" status-id="${status.id}" onclick="onStatusClick(this)">${status.title}</div>
     `;
 
-    const toDoIssueTemplate = (issue) => issueTemplate(issue, 'completeToDoIssue(parentElement)', 'deleteToDoIssue(parentElement)');
+    const toDoIssueTemplate = (issue) => issueTemplate(issue, 'completeToDoIssue(parentElement.parentElement)', 'deleteToDoIssue(parentElement)');
     function completeToDoIssue(issueElement) {
         cachingIssueRepository.updateIssueStatusAndDoWork(issueElement.getAttribute('issue-id'), 2,
             () => issueElement.remove()
@@ -154,7 +154,7 @@
                 });
         }
         createIssueAndDoWork(newIssue, doWork) {
-            doWork(issuesExamples[2]);
+            doWork(issuesExamples[0]);
         }
     }
 
@@ -197,34 +197,6 @@
                 },
                 "status": {
                     "href": "http://localhost:8080/issues/1/status{?projection}",
-                    "templated": true
-                }
-            }
-        },
-        {
-            "id": 2,
-            "content": "Workout for 30 minutes at the gym",
-            "status": {
-                "id": 1,
-                "icon": "○",
-                "title": "To do",
-                "_links": {
-                    "self": {
-                        "href": "http://localhost:8080/statuses/1{?projection}",
-                        "templated": true
-                    }
-                }
-            },
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/issues/2"
-                },
-                "issue": {
-                    "href": "http://localhost:8080/issues/2{?projection}",
-                    "templated": true
-                },
-                "status": {
-                    "href": "http://localhost:8080/issues/2/status{?projection}",
                     "templated": true
                 }
             }
