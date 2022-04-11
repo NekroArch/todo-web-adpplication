@@ -10,10 +10,9 @@ main {
 
 .content {
     width: 270px;
-    height: 327px;
     padding: 20px;
     border-radius: 15px;
-    background: #E4FFFC
+    background: #E4FFFC;
 }
 
 .calendar-greeting {
@@ -25,7 +24,6 @@ main {
     line-height: 16px;
     color: #7B8D8B;
     display: flex;
-
 }
 
 .calendar-text {
@@ -36,13 +34,10 @@ main {
 .choose-status {}
 
 .choose-status__title {
-    position: flex;
     display: flex;
-    flex-direction: row;
     align-items: center;
     justify-self: center;
     justify-content: space-between;
-
 
     font-family: 'Reem Kufi';
 
@@ -62,7 +57,6 @@ main {
 }
 
 .choose-status__title-button {
-    position: flex;
     display: flex;
 
     cursor: pointer;
@@ -89,57 +83,44 @@ main {
 
 .choose-status__status {
     padding: 10px;
-    background: blanchedalmond;
-    border-radius: 15px;
     margin: 10px 10px 10px 0;
     background: #BFEBE6;
     box-shadow: 2px 4px 6px #447B75;
     border-radius: 10px;
-    font-family: 'Rationale';
-    font-style: normal;
-
-
+    font-family: 'Rationale', serif;
 }
 
 .choose-status__status:hover {
     cursor: pointer;
-    font-family: 'Rationale';
+    font-family: 'Rationale', serif;
     font-style: normal;
     color: rgba(238, 114, 145, 0.69);
-
 }
-
 
 .issues__title {
     width: 98px;
     height: 21px;
-    font-family: 'Reem Kufi';
-    font-style: normal;
+    font-family: 'Reem Kufi', serif;
     font-weight: 400;
     font-size: 14px;
     line-height: 21px;
-
     letter-spacing: -0.075em;
-
     color: #254E49;
-
 }
 
 .issues__line {
-
     width: 108px;
-    height: 0px;
+    height: 0;
     border: 1px solid #000000;
 }
 
 .issues__list {
-
     list-style-type: none;
 }
 
 .issue {
     padding: 2px 0 2px 5px;
-    margin: 5px 0 9px 0px;
+    margin: 5px 0 9px 0;
     list-style-position: outside;
     display: flex;
     justify-content: space-between;
@@ -153,9 +134,12 @@ main {
     box-shadow: 1px 4px 6px #447B75;
     border-radius: 5px;
 }
-
+.issue__left-part {
+    display: flex;
+}
 .issue__status {
     align-self: center;
+    padding-bottom: 7px;
     font-size: 30px;
 }
 
@@ -166,16 +150,12 @@ main {
 
 .issue__text {
     align-self: center;
-
     font-family: 'Rationale';
     font-style: normal;
     font-weight: 400;
-    font-size: 10px;
     line-height: 12px;
-
     color: #5C5959;
     font-size: 17px;
-
 }
 
 .issue__delete {
@@ -183,15 +163,12 @@ main {
     align-self: center;
     color: transparent;
     cursor: pointer;
-    position: flex;
     width: 13px;
     height: 13px;
-    margin-right: 2px;
-
+    padding-right: 2px;
     border: 1px solid #EE7291;
     box-sizing: border-box;
     border-radius: 100px;
-
 }
 
 .issue:hover .issue__delete {
@@ -199,7 +176,6 @@ main {
     align-self: center;
     color: transparent;
     cursor: pointer;
-    position: flex;
     width: 13px;
     height: 13px;
     margin-right: 2px;
@@ -209,7 +185,7 @@ main {
     border-radius: 100px;
 }
 
-.issue__delete__plass {
+.issue__delete__pluss {
     visibility: hidden;
     position: flex;
     width: 4px;
@@ -225,9 +201,8 @@ main {
     transform: rotate(-45deg);
 }
 
-.issue:hover .issue__delete__plass {
+.issue:hover .issue__delete__pluss {
     visibility: visible;
-    position: flex;
     width: 8px;
     height: 9px;
     font-family: 'Roboto';

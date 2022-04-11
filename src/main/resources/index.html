@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -91,7 +92,7 @@
                 <div class="choose-status__status" status-id="${status.id}" onclick="onStatusClick(this)">${status.title}</div>
     `;
 
-    const toDoIssueTemplate = (issue) => issueTemplate(issue, 'completeToDoIssue(parentElement)', 'deleteToDoIssue(parentElement)');
+    const toDoIssueTemplate = (issue) => issueTemplate(issue, 'completeToDoIssue(parentElement.parentElement)', 'deleteToDoIssue(parentElement)');
     function completeToDoIssue(issueElement) {
         cachingIssueRepository.updateIssueStatusAndDoWork(issueElement.getAttribute('issue-id'), 2,
             () => issueElement.remove()
@@ -108,10 +109,12 @@
 
     const issueTemplate = (issue, completeClickStr, removeClickStr) => `
             <div class="issue" issue-id=${issue.id}>
-                <span class="issue__status" onclick="${completeClickStr}">${issue.status.icon}</span>
-                <span class="issue__text">${issue.content}</span>
+                <div class="issue__left-part">
+                    <span class="issue__status" onclick="${completeClickStr}">${issue.status.icon}</span>
+                    <span class="issue__text">${issue.content}</span>
+                </div>
                 <span class="issue__delete" onclick="${removeClickStr}">
-                <div class="issue__delete__plass">+</div>
+                    <div class="issue__delete__pluss">+</div>
                 </span>
             </div>
         `;
@@ -121,13 +124,37 @@
         cachedIssues = new Map();
 
         getIssuesByStatusAndDoWork(statusId, doWork) {
+            fetch(`http://localhost:8080/issues/search/findAllByStatusId?statusId=${statusId}`)
+                .then(resp => resp.json())
+                .then(resp => resp._embedded.issues)
+                .then(resp => {
+                    this.cachedIssues = new Map(resp.map(issue => [issue.id, issue]));
+                    doWork(resp);
+                });
             doWork(issuesExamples);
         }
         updateIssueStatusAndDoWork(issueId, statusId, doWork) {
-            doWork();
+            issueId = parseInt(issueId);
+            let status = cachingStatusesRepository.cachedStatuses.get(statusId);
+            fetch(`http://localhost:8080/issues/${issueId}`,{
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    status: status._links.self.href
+                })
+            })
+                .then(resp => {
+                    if(resp.ok) {
+                        let oldIssue = this.cachedIssues.get(issueId);
+                        oldIssue.content = resp.content;
+                        oldIssue.status = resp.status;
+                        this.cachedIssues.set(issueId, oldIssue);
+                        doWork();
+                    }
+                });
         }
         createIssueAndDoWork(newIssue, doWork) {
-            doWork(issuesExamples[2]);
+            doWork(issuesExamples[0]);
         }
     }
 
@@ -135,7 +162,13 @@
         cachedStatuses = new Map();
 
         getStatusesAndDoWork(doWork) {
-            doWork(statusesExamples);
+            fetch('http://localhost:8080/statuses/')
+                .then(resp => resp.json())
+                .then(resp => resp._embedded.statuses)
+                .then(resp => {
+                    this.cachedStatuses = new Map(resp.map(status => [status.id, status]));
+                    doWork(resp);
+                });
         }
     }
 
@@ -167,34 +200,6 @@
                     "templated": true
                 }
             }
-        },
-        {
-            "id": 2,
-            "content": "Workout for 30 minutes at the gym",
-            "status": {
-                "id": 1,
-                "icon": "○",
-                "title": "To do",
-                "_links": {
-                    "self": {
-                        "href": "http://localhost:8080/statuses/1{?projection}",
-                        "templated": true
-                    }
-                }
-            },
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/issues/2"
-                },
-                "issue": {
-                    "href": "http://localhost:8080/issues/2{?projection}",
-                    "templated": true
-                },
-                "status": {
-                    "href": "http://localhost:8080/issues/2/status{?projection}",
-                    "templated": true
-                }
-            }
         }
     ];
     let openSuse = `
@@ -217,50 +222,6 @@ dKKKKKKKKKKKK;.;oOKx,..^..;kKKK0.  dKd
         'lkK0xl:;,,,,;:ldO0kl'
             '^:ldxkkkkxdl:^'
     `;
-    let statusesExamples = [
-        {
-            id: 1,
-            icon: '○',
-            title: 'To Do',
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/statuses/1"
-                },
-                "status": {
-                    "href": "http://localhost:8080/statuses/1{?projection}",
-                    "templated": true
-                }
-            }
-        },
-        {
-            "id": 2,
-            "icon": "✓",
-            "title": "Completed",
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/statuses/2"
-                },
-                "status": {
-                    "href": "http://localhost:8080/statuses/2{?projection}",
-                    "templated": true
-                }
-            }
-        },
-        {
-            "id": 3,
-            "icon": "*",
-            "title": "Deleted",
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/statuses/3"
-                },
-                "status": {
-                    "href": "http://localhost:8080/statuses/3{?projection}",
-                    "templated": true
-                }
-            }
-        }
-    ];
     //-----------------------------MAIN--------------------------------
     console.log(openSuse);
     let cachingIssueRepository = new CachingIssueRepository();
