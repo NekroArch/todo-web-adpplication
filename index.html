@@ -6,17 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Rancho"/>
+    <link href='https://fonts.googleapis.com/css?family=Reem Kufi' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Rationale" />
     <title>ToDo App</title>
 </head>
 <body>
 <div class="content">
     <header>
-    <div class="calendar-greeting">Hey, Mike</div>
+    <div class="calendar-greeting">
+        <img src="Group.svg" >
+    <div class="calendar-text">Hey, Mike</div>
+    </div>
     <div class="choose-status">
         <div class="choose-status__title">
             <div class="choose-status__title-message">What's your plan?</div>
-            <div class="choose-status__title-button" onclick="onStatusesShowClick()">▽</div>
+            <div class="choose-status__title-button">
+                <div class="choose-status__title-button-triangle" onclick="onStatusesShowClick()">▼</div>
+            </div>
         </div>
         <div class="choose-status__statuses" style="display: none;" hidden="hidden">
 <!--            место для всех статусов-->
@@ -25,6 +31,7 @@
     </header>
     <main>
         <div class="issues__title">Upcoming To-do's</div>
+        <div class="issues__line"></div>
         <div class="issues__list">
 <!--            место для всех issue-->
         </div>
@@ -67,7 +74,7 @@
         statuses.hidden = !statuses.hidden;
         statuses.style.display= statuses.hidden ? 'none' : '';
 
-        document.getElementsByClassName('choose-status__title-button')[0].innerText = statuses.hidden ? '▽' : '△'
+        document.getElementsByClassName('choose-status__title-button-triangle')[0].innerText = statuses.hidden ? '▼' : '▲'
     }
 
 //-------------------------TEMPLATES-------------------------------
@@ -104,7 +111,9 @@
             <div class="issue" issue-id=${issue.id}>
                 <span class="issue__status" onclick="${completeClickStr}">${issue.status.icon}</span>
                 <span class="issue__text">${issue.content}</span>
-                <span class="issue__delete" onclick="${removeClickStr}">⨷</span>
+                <span class="issue__delete" onclick="${removeClickStr}">
+                <div class="issue__delete__plass">+</div>
+                </span>
             </div>
         `;
 

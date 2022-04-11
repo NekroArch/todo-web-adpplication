@@ -3,90 +3,252 @@ body {
     display: flex;
     justify-content: center;
 }
+
 main {
     margin-top: 10px;
 }
 
 .content {
-    width: 300px;
-    background: white;
-    padding:20px;
+    width: 270px;
+    height: 327px;
+    padding: 20px;
     border-radius: 15px;
+    background: #E4FFFC
 }
+
 .calendar-greeting {
-margin-bottom: 10px;
-}
-.choose-status {
-
-}
-.choose-status__title {
-    border-radius: 5px;
-    border: 1px solid black;
+    margin-bottom: 10px;
+    font-family: 'Reem Kufi';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 16px;
+    color: #7B8D8B;
     display: flex;
-    justify-content: space-evenly;
 
-    padding: 10px;
 }
+
+.calendar-text {
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.choose-status {}
+
+.choose-status__title {
+    position: flex;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: center;
+    justify-content: space-between;
+
+
+    font-family: 'Reem Kufi';
+
+    background: #EEEEEE;
+    border: 1px solid #3D5C59;
+    box-sizing: border-box;
+    box-shadow: 3px 4px 8px #5BA099;
+    border-radius: 11px;
+}
+
 .choose-status__title-message {
+    margin-left: 17%;
+    font-family: 'Reem Kufi';
 
+    font-style: normal;
+    color: #254E49;
 }
+
 .choose-status__title-button {
+    position: flex;
+    display: flex;
 
+    cursor: pointer;
+    justify-content: center;
+    width: 43px;
+    height: 35px;
+
+    background: #447B75;
+    border: 1px solid #3D5C59;
+    box-sizing: border-box;
+    border-radius: 0px 9px 9px 0px;
 }
+
+.choose-status__title-button-triangle {
+    font-size: 24px;
+    color: #ffffff;
+}
+
 .choose-status__statuses {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
 }
+
 .choose-status__status {
     padding: 10px;
     background: blanchedalmond;
     border-radius: 15px;
     margin: 10px 10px 10px 0;
+    background: #BFEBE6;
+    box-shadow: 2px 4px 6px #447B75;
+    border-radius: 10px;
+    font-family: 'Rationale';
+    font-style: normal;
+
+
+}
+
+.choose-status__status:hover {
+    cursor: pointer;
+    font-family: 'Rationale';
+    font-style: normal;
+    color: rgba(238, 114, 145, 0.69);
+
 }
 
 
 .issues__title {
-    text-decoration: underline black;
+    width: 98px;
+    height: 21px;
+    font-family: 'Reem Kufi';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 21px;
+
+    letter-spacing: -0.075em;
+
+    color: #254E49;
+
 }
+
+.issues__line {
+
+    width: 108px;
+    height: 0px;
+    border: 1px solid #000000;
+}
+
 .issues__list {
+
     list-style-type: none;
 }
+
 .issue {
     padding: 2px 0 2px 5px;
-    margin: 5px 0 5px 0;
+    margin: 5px 0 9px 0px;
     list-style-position: outside;
-    border-radius: 10px;
     display: flex;
     justify-content: space-between;
 }
+
 .issue:hover {
-    background: paleturquoise;
+    width: 267px;
+    height: 34px;
+    margin-top: 9px;
+    background: rgba(153, 215, 208, 0.49);
+    box-shadow: 1px 4px 6px #447B75;
+    border-radius: 5px;
 }
+
 .issue__status {
-    font-size: 24px;
+    align-self: center;
+    font-size: 30px;
 }
+
 .issue__status:hover {
-    color: brown;
     cursor: pointer;
+    color: #447B75;
 }
+
 .issue__text {
     align-self: center;
 
+    font-family: 'Rationale';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+
+    color: #5C5959;
+    font-size: 17px;
+
 }
+
 .issue__delete {
+    visibility: hidden;
+    align-self: center;
     color: transparent;
-    font-size: 24px;
     cursor: pointer;
+    position: flex;
+    width: 13px;
+    height: 13px;
+    margin-right: 2px;
+
+    border: 1px solid #EE7291;
+    box-sizing: border-box;
+    border-radius: 100px;
+
 }
-.issue:hover .issue__delete{
-    color: red;
+
+.issue:hover .issue__delete {
+    visibility: visible;
+    align-self: center;
+    color: transparent;
+    cursor: pointer;
+    position: flex;
+    width: 13px;
+    height: 13px;
+    margin-right: 2px;
+
+    border: 1px solid #EE7291;
+    box-sizing: border-box;
+    border-radius: 100px;
+}
+
+.issue__delete__plass {
+    visibility: hidden;
+    position: flex;
+    width: 4px;
+    height: 8px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+
+    color: #EE7291;
+
+    transform: rotate(-45deg);
+}
+
+.issue:hover .issue__delete__plass {
+    visibility: visible;
+    position: flex;
+    width: 8px;
+    height: 9px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 13px;
+
+    color: #EE7291;
+
+    transform: rotate(-45deg);
 }
 
 .issues__create-new {
-    color: red;
     padding-left: 5px;
+    font-family: 'Rationale';
+    font-style: normal;
+
+    color: #FC5079
 }
+
 .issues__create-new:hover {
     cursor: pointer;
 }
