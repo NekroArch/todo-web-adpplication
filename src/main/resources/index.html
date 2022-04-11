@@ -109,10 +109,12 @@
 
     const issueTemplate = (issue, completeClickStr, removeClickStr) => `
             <div class="issue" issue-id=${issue.id}>
-                <span class="issue__status" onclick="${completeClickStr}">${issue.status.icon}</span>
-                <span class="issue__text">${issue.content}</span>
+                <div class="issue__left-part">
+                    <span class="issue__status" onclick="${completeClickStr}">${issue.status.icon}</span>
+                    <span class="issue__text">${issue.content}</span>
+                </div>
                 <span class="issue__delete" onclick="${removeClickStr}">
-                <div class="issue__delete__plass">+</div>
+                    <div class="issue__delete__pluss">+</div>
                 </span>
             </div>
         `;
