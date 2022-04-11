@@ -61,6 +61,16 @@
         )
     }
 
+    function addIssue(){
+        let issue = prompt("Please enter your Issue", "");
+        if (issue != null) {
+            cachingIssueRepository.createIssueAndDoWork(issue, issue =>{
+                let a = document.getElementsByClassName('issues__list')[0]; 
+                a.innerHTML = a.innerHTML + toDoIssueTemplate(issue);
+            })
+        }
+    }
+
     function onStatusClick(statusElement) {
         Array.from(statusElement.parentElement.children).forEach(el => el.style = '');
         statusElement.style = 'display:none;';
