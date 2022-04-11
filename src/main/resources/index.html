@@ -45,10 +45,22 @@
         statusesEl.innerHTML = '';
         cachingStatusesRepository.getStatusesAndDoWork((statuses) => {
             statusesEl.innerHTML = statuses.map(status => statusTemplate(status)).join('');
+            Array.from(statusesEl.children).filter(el => el.getAttribute('status-id') === '1').forEach(el => el.style = 'display:none;')
         });
+
     }
 
-    function loadIssuesByStatusId(selectedStatusId) {
+    function onStatusClick(statusElement) {
+        Array.from(statusElement.parentElement.children).forEach(el => el.style = '');
+        statusElement.style = 'display:none;';
+        let status = cachingStatusesRepository.cachedStatuses.get(parseInt(statusElement.getAttribute('status-id')));
+        let util = statusIdToIssueHtmlConstructorAndViewChanger.get(status.id);
+        loadIssuesByStatusId(status.id, util.issueHtmlConstructor);
+        util.changeViewByCurrentStatus()
+        setStatusTitle(status);
+    }
+
+    function loadIssuesByStatusId(selectedStatusId, issueHtmlConstructor) {
         let issuesElement = document.getElementsByClassName('issues__list')[0];
         issuesElement.innerHTML = '';
 
@@ -65,19 +77,15 @@
         let issue = prompt("Please enter your Issue", "");
         if (issue != null) {
             cachingIssueRepository.createIssueAndDoWork(issue, issue =>{
-                let a = document.getElementsByClassName('issues__list')[0]; 
+                let a = document.getElementsByClassName('issues__list')[0];
                 a.innerHTML = a.innerHTML + toDoIssueTemplate(issue);
             })
         }
     }
-
-    function onStatusClick(statusElement) {
-        Array.from(statusElement.parentElement.children).forEach(el => el.style = '');
-        statusElement.style = 'display:none;';
-        loadIssuesByStatusId(statusElement.getAttribute('status-id'));
-    }
-
     //--------------------------------
+    function setStatusTitle(status) {
+        document.getElementsByClassName('issues__title')[0].innerText = status.title;
+    }
 
     function onStatusesShowClick() {
         let statuses = document.getElementsByClassName('choose-status__statuses')[0];
@@ -88,15 +96,32 @@
     }
 
 //-------------------------TEMPLATES-------------------------------
-
-    let statusIdToIssueHtmlConstructor = new Map([
-        [1, (issue) => toDoIssueTemplate(issue)],
-        [2, (issue) => completedIssueTemplate(issue)],
-        [3, (issue) => deletedIssueTemplate(issue)],
-        ['1', (issue) => toDoIssueTemplate(issue)],
-        ['2', (issue) => completedIssueTemplate(issue)],
-        ['3', (issue) => deletedIssueTemplate(issue)]
+    let statusIdToIssueHtmlConstructorAndViewChanger = new Map([
+        [1, {issueHtmlConstructor: (issue) => toDoIssueTemplate(issue),
+            changeViewByCurrentStatus: () => changeViewByStatusToDo()}],
+        [2, {issueHtmlConstructor: (issue) => completedIssueTemplate(issue),
+            changeViewByCurrentStatus: () => changeViewByStatusCompleted()}],
+        [3, {issueHtmlConstructor: (issue) => deletedIssueTemplate(issue),
+            changeViewByCurrentStatus: () => changeViewByStatusDeleted()}],
+        ['1', {issueHtmlConstructor: (issue) => toDoIssueTemplate(issue),
+            changeViewByCurrentStatus: () => changeViewByStatusToDo()}],
+        ['2', {issueHtmlConstructor: (issue) => completedIssueTemplate(issue),
+            changeViewByCurrentStatus: () => changeViewByStatusCompleted()}],
+        ['3', {issueHtmlConstructor: (issue) => deletedIssueTemplate(issue),
+            changeViewByCurrentStatus: () => changeViewByStatusDeleted()}]
     ]);
+
+    function changeViewByStatusToDo() {
+        document.getElementsByClassName('issues__create-new')[0].style = '';
+    }
+
+    function changeViewByStatusCompleted() {
+        document.getElementsByClassName('issues__create-new')[0].style = 'display:none;';
+    }
+
+    function changeViewByStatusDeleted() {
+        document.getElementsByClassName('issues__create-new')[0].style = 'display:none;';
+    }
 
     const statusTemplate = (status) => `
                 <div class="choose-status__status" status-id="${status.id}" onclick="onStatusClick(this)">${status.title}</div>
@@ -238,6 +263,6 @@ dKKKKKKKKKKKK;.;oOKx,..^..;kKKK0.  dKd
     let cachingStatusesRepository = new CachingStatusRepository();
 
     loadStatuses()
-    loadIssuesByStatusId(1)
+    loadIssuesByStatusId(1, statusIdToIssueHtmlConstructorAndViewChanger.get(1).issueHtmlConstructor)
 </script>
 </html>
