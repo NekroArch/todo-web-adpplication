@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -121,10 +122,34 @@
         cachedIssues = new Map();
 
         getIssuesByStatusAndDoWork(statusId, doWork) {
+            fetch(`http://localhost:8080/issues/search/findAllByStatusId?statusId=${statusId}`)
+                .then(resp => resp.json())
+                .then(resp => resp._embedded.issues)
+                .then(resp => {
+                    this.cachedIssues = new Map(resp.map(issue => [issue.id, issue]));
+                    doWork(resp);
+                });
             doWork(issuesExamples);
         }
         updateIssueStatusAndDoWork(issueId, statusId, doWork) {
-            doWork();
+            issueId = parseInt(issueId);
+            let status = cachingStatusesRepository.cachedStatuses.get(statusId);
+            fetch(`http://localhost:8080/issues/${issueId}`,{
+                method: 'PATCH',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    status: status._links.self.href
+                })
+            })
+                .then(resp => {
+                    if(resp.ok) {
+                        let oldIssue = this.cachedIssues.get(issueId);
+                        oldIssue.content = resp.content;
+                        oldIssue.status = resp.status;
+                        this.cachedIssues.set(issueId, oldIssue);
+                        doWork();
+                    }
+                });
         }
         createIssueAndDoWork(newIssue, doWork) {
             doWork(issuesExamples[2]);
@@ -135,7 +160,13 @@
         cachedStatuses = new Map();
 
         getStatusesAndDoWork(doWork) {
-            doWork(statusesExamples);
+            fetch('http://localhost:8080/statuses/')
+                .then(resp => resp.json())
+                .then(resp => resp._embedded.statuses)
+                .then(resp => {
+                    this.cachedStatuses = new Map(resp.map(status => [status.id, status]));
+                    doWork(resp);
+                });
         }
     }
 
@@ -217,50 +248,6 @@ dKKKKKKKKKKKK;.;oOKx,..^..;kKKK0.  dKd
         'lkK0xl:;,,,,;:ldO0kl'
             '^:ldxkkkkxdl:^'
     `;
-    let statusesExamples = [
-        {
-            id: 1,
-            icon: '○',
-            title: 'To Do',
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/statuses/1"
-                },
-                "status": {
-                    "href": "http://localhost:8080/statuses/1{?projection}",
-                    "templated": true
-                }
-            }
-        },
-        {
-            "id": 2,
-            "icon": "✓",
-            "title": "Completed",
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/statuses/2"
-                },
-                "status": {
-                    "href": "http://localhost:8080/statuses/2{?projection}",
-                    "templated": true
-                }
-            }
-        },
-        {
-            "id": 3,
-            "icon": "*",
-            "title": "Deleted",
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/statuses/3"
-                },
-                "status": {
-                    "href": "http://localhost:8080/statuses/3{?projection}",
-                    "templated": true
-                }
-            }
-        }
-    ];
     //-----------------------------MAIN--------------------------------
     console.log(openSuse);
     let cachingIssueRepository = new CachingIssueRepository();
