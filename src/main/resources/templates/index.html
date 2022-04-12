@@ -232,7 +232,7 @@
         cachedStatuses = new Map();
 
         getStatusesAndDoWork(doWork) {
-            fetch('http://localhost:8080/statuses/')
+            fetch('http://web-todo-application.herokuapp.com/statuses/')
                 .then(resp => resp.json())
                 .then(resp => resp._embedded.statuses)
                 .then(resp => {
