@@ -1,18 +1,17 @@
 package edu.grsu.web2.backend.controllers;
 
-import java.time.Instant;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class IssueController{
 
 
-    @GetMapping("/t")
-    public String getCurrentTime() {
+    @GetMapping("/issue")
+    public ModelAndView getIssues() {
 
-        return Instant.now().toString();
+        return new ModelAndView("index");
     }
 
 }
