@@ -10,7 +10,6 @@ public class IssueController{
 
     @GetMapping("/issue")
     public ModelAndView getIssues() {
-
         return new ModelAndView("index");
     }
 
