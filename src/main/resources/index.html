@@ -158,7 +158,7 @@
         cachedIssues = new Map();
 
         getIssuesByStatusAndDoWork(statusId, doWork) {
-            fetch(`http://localhost:8080/issues/search/findAllByStatusId?statusId=${statusId}`)
+            fetch(`http://secret-wildwood-14795.herokuapp.com/issues/search/findAllByStatusId?statusId=${statusId}`)
                 .then(resp => resp.json())
                 .then(resp => resp._embedded.issues)
                 .then(resp => {
@@ -169,7 +169,7 @@
         updateIssueStatusAndDoWork(issueId, statusId, doWork) {
             issueId = parseInt(issueId);
             let status = cachingStatusesRepository.cachedStatuses.get(statusId);
-            fetch(`http://localhost:8080/issues/${issueId}`,{
+            fetch(`http://secret-wildwood-14795.herokuapp.com/issues/${issueId}`,{
                 method: 'PATCH',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -187,7 +187,7 @@
                 });
         }
         createIssueAndDoWork(issueText, doWork) {
-            fetch(`http://localhost:8080/issues`,{
+            fetch(`http://secret-wildwood-14795.herokuapp.com/issues`,{
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -211,7 +211,7 @@
         cachedStatuses = new Map();
 
         getStatusesAndDoWork(doWork) {
-            fetch('http://localhost:8080/statuses/')
+            fetch('http://secret-wildwood-14795.herokuapp.com/statuses/')
                 .then(resp => resp.json())
                 .then(resp => resp._embedded.statuses)
                 .then(resp => {
