@@ -10,13 +10,22 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(methods = {RequestMethod.GET, RequestMethod.DELETE, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.PUT})
 @RepositoryRestResource(collectionResourceRel = "issues", path = "issues", excerptProjection = IssueView.class)
 public interface IssueRepository extends CrudRepository<Issue, Long> {
 
+    @Override
     @EntityGraph(attributePaths = {"status"})
     List<Issue> findAll();
 
     List<Issue> findAllByStatusId(@Param("statusId") int statusId);
+
+    @Override
+    @EntityGraph(attributePaths = {"status"})
+    Optional<Issue> findById(@Param("id") Long id);
+
+    @EntityGraph(attributePaths = {"status"})
+    Issue findAllById(@Param("id") long id);
 }

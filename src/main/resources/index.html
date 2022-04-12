@@ -67,18 +67,17 @@
         cachingIssueRepository.getIssuesByStatusAndDoWork(
             selectedStatusId,
             (issues) => {
-                let issueHtmlConstructor = statusIdToIssueHtmlConstructor.get(selectedStatusId);
                 issuesElement.innerHTML = issues.map(issue => issueHtmlConstructor(issue)).join('')
             }
         )
     }
 
     function addIssue(){
-        let issue = prompt("Please enter your Issue", "");
-        if (issue != null) {
-            cachingIssueRepository.createIssueAndDoWork(issue, issue =>{
-                let a = document.getElementsByClassName('issues__list')[0];
-                a.innerHTML = a.innerHTML + toDoIssueTemplate(issue);
+        let issueText = prompt("Please enter your Issue", "");
+        if (issueText != null) {
+            cachingIssueRepository.createIssueAndDoWork(issueText, issue =>{
+                let issues = document.getElementsByClassName('issues__list')[0];
+                issues.innerHTML = issues.innerHTML + toDoIssueTemplate(issue);
             })
         }
     }
@@ -166,7 +165,6 @@
                     this.cachedIssues = new Map(resp.map(issue => [issue.id, issue]));
                     doWork(resp);
                 });
-            doWork(issuesExamples);
         }
         updateIssueStatusAndDoWork(issueId, statusId, doWork) {
             issueId = parseInt(issueId);
@@ -188,8 +186,24 @@
                     }
                 });
         }
-        createIssueAndDoWork(newIssue, doWork) {
-            doWork(issuesExamples[0]);
+        createIssueAndDoWork(issueText, doWork) {
+            fetch(`http://localhost:8080/issues`,{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    content: issueText,
+                    status: cachingStatusesRepository.cachedStatuses.get(1)._links.self.href
+                })
+            }).then(resp => resp.json())
+                .then(resp => {
+                    let issue = {
+                        id: resp.id,
+                        content: resp.content,
+                        status: resp._embedded.status
+                    };
+                    this.cachedIssues.set(resp.id, issue);
+                    doWork(issue);
+            })
         }
     }
 
@@ -206,37 +220,6 @@
                 });
         }
     }
-
-    let issuesExamples = [
-        {
-            "id": 1,
-            "content": "Build a moder To Do app",
-            "status": {
-                "id": 1,
-                "icon": "○",
-                "title": "To do",
-                "_links": {
-                    "self": {
-                        "href": "http://localhost:8080/statuses/1{?projection}",
-                        "templated": true
-                    }
-                }
-            },
-            "_links": {
-                "self": {
-                    "href": "http://localhost:8080/issues/1"
-                },
-                "issue": {
-                    "href": "http://localhost:8080/issues/1{?projection}",
-                    "templated": true
-                },
-                "status": {
-                    "href": "http://localhost:8080/issues/1/status{?projection}",
-                    "templated": true
-                }
-            }
-        }
-    ];
     let openSuse = `
            .;ldkO0000Okdl;.
        .;d00xl:^''''''^:ok00d;.
