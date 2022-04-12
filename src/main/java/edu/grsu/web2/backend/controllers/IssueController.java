@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IssueController{
 
 
-    @GetMapping("/")
+    @GetMapping("/t")
     public String getCurrentTime() {
 
         return Instant.now().toString();
