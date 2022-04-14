@@ -170,7 +170,7 @@
         cachedIssues = new Map();
 
         getIssuesByStatusAndDoWork(statusId, doWork) {
-            fetch(`http://web-todo-application.herokuapp.com/issues/search/findAllByStatusId?statusId=${statusId}`)
+            fetch(`http://localhost:8080/issues/search/findAllByStatusId?statusId=${statusId}`)
                 .then(resp => resp.json())
                 .then(resp => resp._embedded.issues)
                 .then(resp => {
@@ -181,7 +181,7 @@
         updateIssueStatusAndDoWork(issueId, statusId, doWork) {
             issueId = parseInt(issueId);
             let status = cachingStatusesRepository.cachedStatuses.get(statusId);
-            fetch(`http://web-todo-application.herokuapp.com/issues/${issueId}`,{
+            fetch(`http://localhost:8080/issues/${issueId}`,{
                 method: 'PATCH',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -199,7 +199,7 @@
                 });
         }
         createIssueAndDoWork(issueText, doWork) {
-            fetch(`http://web-todo-application.herokuapp.com/issues`,{
+            fetch(`http://localhost:8080/issues`,{
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
@@ -218,7 +218,7 @@
             })
         }
         deleteIssue(issueId, doWork) {
-            fetch(`http://web-todo-application.herokuapp.com/issues/${issueId}`,{method: 'DELETE'})
+            fetch(`http://localhost:8080/issues/${issueId}`,{method: 'DELETE'})
             .then(resp => {
                 if(resp.ok) {
                     this.cachedIssues.delete(issueId);
